@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bryan S. Barrett – Analog Droid Terminal</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TLEEHQNJ82"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TLEEHQNJ82');
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: '#1a1a1a',
+            surface: '#222222',
+            accent: '#c28840',
+            accentGlow: '#f0e68c',
+            textPrimary: '#e7e3d4',
+            textMuted: '#a59f93',
+            border: '#7c6a58',
+          },
+          fontFamily: {
+            base: ['Share Tech Mono', 'IBM Plex Mono', 'monospace'],
+            alt: ['Orbitron', 'Unica One', 'sans-serif'],
+          },
+          boxShadow: {
+            innerCustom: 'inset 0 1px 3px #00000080, inset 0 -1px 2px #ffffff10',
+          },
+          keyframes: {
+            flicker: {
+              '0%, 19%, 21%, 23%, 25%, 54%, 56%, 100%': { opacity: '1' },
+              '20%, 22%, 24%, 55%': { opacity: '0.4' },
+            },
+            typing: {
+              '0%': { width: '0' },
+              '100%': { width: '100%' }
+            },
+            blink: {
+              '0%, 50%, 100%': { borderColor: 'transparent' },
+              '25%, 75%': { borderColor: '#f0e68c' },
+            },
+            driftSmoke: {
+              '0%': { transform: 'translateY(0)', opacity: '0.1' },
+              '50%': { transform: 'translateY(-10px)', opacity: '0.25' },
+              '100%': { transform: 'translateY(0)', opacity: '0.1' },
+            },
+          },
+          animation: {
+            flicker: 'flicker 1.5s infinite',
+            smoke: 'driftSmoke 10s linear infinite',
+            typewriter: 'typing 6s steps(30, end) forwards',
+            cursor: 'blink 0.8s step-end infinite'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Styles -->
+  <style>
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background-color: #1a1a1a;
+      color: #e7e3d4;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="white"/></svg>') 4 4, auto;
+    }
+
+    .ascii-divider {
+      font-family: monospace;
+      color: #7c6a58;
+      font-size: 0.875rem;
+      letter-spacing: 0.08em;
+      text-align: center;
+      padding: 0.5rem 0;
+    }
+
+    .corner-bolt {
+      width: 8px;
+      height: 8px;
+      background: #7c6a58;
+      position: absolute;
+      border-radius: 1px;
+    }
+
+    .bolt-tl { top: -4px; left: -4px; }
+    .bolt-tr { top: -4px; right: -4px; }
+    .bolt-bl { bottom: -4px; left: -4px; }
+    .bolt-br { bottom: -4px; right: -4px; }
+
+    .typewriter {
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid #f0e68c;
+      animation: typing 6s steps(30, end) forwards, cursor 0.8s step-end infinite;
+      display: inline-block;
+      max-width: 100%;
+    }
+
+    .typewriter-delay {
+      animation-delay: 6.2s;
+    }
+  </style>
+</head>
+<body class="bg-background text-textPrimary relative overflow-hidden">
+
+  <!-- Smoke Layer -->
+  <div class="absolute inset-0 z-0 pointer-events-none animate-smoke">
+    <div class="w-full h-full bg-gradient-to-b from-[#ffffff0a] to-[#00000000]"></div>
+  </div>
+
+  <!-- HERO -->
+  <section class="max-w-6xl mx-auto text-center px-6 py-32 relative z-10">
+    <div class="flex items-center justify-center gap-3 mb-2">
+      <div class="w-2 h-2 rounded-full bg-accentGlow animate-flicker shadow-[0_0_8px_#f0e68c]"></div>
+      <span class="text-sm textMuted tracking-widest uppercase">● ONLINE</span>
+    </div>
+    <h1 class="text-5xl lg:text-6xl font-bold font-alt tracking-wider uppercase text-accent typewriter">
+      Bryan S. Barrett
+    </h1>
+    <p class="text-lg md:text-xl textMuted mt-4 font-base typewriter typewriter-delay">
+      Junior Developer • AI Tools Builder • Recursive Architect
+    </p>
+    <div class="mt-6 flex flex-wrap justify-center gap-4">
+      <a href="https://github.com/brybarrett" class="bg-accent hover:bg-accentGlow text-black font-bold py-2 px-5 rounded-md border-2 border-border transition hover:shadow-[0_0_6px_#f0e68c88]">View GitHub</a>
+      <a href="/resume.pdf" download class="bg-surface border-2 border-border text-accent hover:text-accentGlow py-2 px-5 rounded-md transition hover:shadow-[0_0_6px_#f0e68c88]">
+        Download Resume
+      </a>
+      <a href="/resume.pdf" target="_blank" class="bg-surface border-2 border-border text-accent hover:text-accentGlow py-2 px-5 rounded-md transition hover:shadow-[0_0_6px_#f0e68c88]">
+        View Resume
+      </a>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="ascii-divider">╒════════════════════════════════════╛</div>
+
+  <!-- Projects -->
+  <section class="max-w-6xl mx-auto px-6 py-16 relative z-10">
+    <div class="text-xs text-[#7c6a58] uppercase tracking-wider font-mono mb-2">Terminal Section</div>
+    <h2 class="text-3xl font-bold tracking-wider text-accent mb-10 border-b border-border pb-4">Featured Projects</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- CodePilot -->
+      <a href="https://codepilot-7vn0.onrender.com" target="_blank" rel="noopener noreferrer" class="bg-surface border border-border rounded-md p-5 shadow-lg relative hover:shadow-[0_0_10px_#f0e68c55] hover:scale-[1.01] transition duration-300 block">
+        <div class="corner-bolt bolt-tl absolute"></div>
+        <div class="corner-bolt bolt-tr absolute"></div>
+        <div class="corner-bolt bolt-bl absolute"></div>
+        <div class="corner-bolt bolt-br absolute"></div>
+        <h3 class="text-xl font-bold text-accent mb-2">CodePilot</h3>
+        <p class="textMuted text-sm">Developer utility tool with Regex Explainer, API Tester, Bug Finder, and XP Tracker.</p>
+      </a>
+
+      <!-- LeadStrike -->
+      <a href="https://leadstrike-ui.onrender.com" target="_blank" rel="noopener noreferrer" class="bg-surface border border-border rounded-md p-5 shadow-lg relative hover:shadow-[0_0_10px_#f0e68c55] hover:scale-[1.01] transition duration-300 block">
+        <div class="corner-bolt bolt-tl absolute"></div>
+        <div class="corner-bolt bolt-tr absolute"></div>
+        <div class="corner-bolt bolt-bl absolute"></div>
+        <div class="corner-bolt bolt-br absolute"></div>
+        <h3 class="text-xl font-bold text-accent mb-2">LeadStrike</h3>
+        <p class="textMuted text-sm">Lead generation engine with live dropdown filters and Discord alerts.</p>
+      </a>
+
+      <!-- WeathARRR -->
+      <a href="https://brybarrett.github.io/weatharrr/" target="_blank" rel="noopener noreferrer" class="bg-surface border border-border rounded-md p-5 shadow-lg relative hover:shadow-[0_0_10px_#f0e68c55] hover:scale-[1.01] transition duration-300 block">
+        <div class="corner-bolt bolt-tl absolute"></div>
+        <div class="corner-bolt bolt-tr absolute"></div>
+        <div class="corner-bolt bolt-bl absolute"></div>
+        <div class="corner-bolt bolt-br absolute"></div>
+        <h3 class="text-xl font-bold text-accent mb-2">WeathARRR</h3>
+        <p class="textMuted text-sm">Pirate-themed weather app using live API calls with custom Tailwind styling.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-8 textMuted text-sm border-t border-border bg-background shadow-[inset_0_1px_1px_#ffffff10] relative z-10">
+    &copy; 2025 Bryan S. Barrett • Analog Droid Terminal • Built with Tailwind + Brass
+  </footer>
+
+</body>
+</html>
