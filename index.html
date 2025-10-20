@@ -44,9 +44,10 @@
           boxShadow: {
             neon: '0 0 20px rgba(0, 212, 255, 0.3)',
             neonPink: '0 0 20px rgba(255, 0, 128, 0.3)',
+            glass: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
           },
-          backgroundImage: {
-            'grid-pattern': 'linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px)',
+          backdropBlur: {
+            glass: '10px',
           },
           keyframes: {
             pulse: {
@@ -57,10 +58,15 @@
               '0%': { transform: 'translateY(20px)', opacity: 0 },
               '100%': { transform: 'translateY(0)', opacity: 1 },
             },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
           },
           animation: {
             pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
             slideIn: 'slideIn 0.5s ease-out forwards',
+            float: 'float 3s ease-in-out infinite',
           }
         }
       }
@@ -100,14 +106,52 @@
     }
     
     .project-card {
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       border: 1px solid #2d2d3d;
+      background: rgba(26, 26, 36, 0.6);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .project-card:hover::before {
+      left: 100%;
     }
     
     .project-card:hover {
       border-color: #00d4ff;
-      box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
-      transform: translateY(-4px);
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+      transform: translateY(-8px);
+    }
+    
+    .glass-button {
+      background: rgba(26, 26, 36, 0.6);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+    
+    .glass-button:hover {
+      background: rgba(26, 26, 36, 0.8);
+      transform: translateY(-2px);
+    }
+    
+    .tag {
+      transition: all 0.2s ease;
+    }
+    
+    .tag:hover {
+      transform: scale(1.05);
     }
     
     @media (max-width: 640px) {
@@ -123,7 +167,7 @@
 
   <!-- HERO -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-32 relative z-10">
-    <div class="flex items-center justify-center gap-3 mb-4">
+    <div class="flex items-center justify-center gap-3 mb-6">
       <div class="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
       <span class="text-xs sm:text-sm text-textMuted tracking-widest uppercase font-mono">● ONLINE</span>
     </div>
@@ -138,131 +182,144 @@
       <span class="text-accent">AI-Native Developer</span> • Rapid Prototyping → Production • LLM Applications
     </p>
     
-    <p class="text-sm sm:text-base text-center text-textMuted max-w-3xl mx-auto mb-8 leading-relaxed">
+    <p class="text-sm sm:text-base text-center text-textMuted max-w-3xl mx-auto mb-10 leading-relaxed">
       Building AI-powered tools that ship fast — RAG systems, dev utilities, and intelligent automation.
     </p>
 
     <div class="flex flex-wrap justify-center gap-3 sm:gap-4">
       <a href="https://github.com/brybarrett" 
-         class="bg-accent hover:bg-accent/80 text-black font-semibold py-2.5 sm:py-3 px-5 sm:px-6 rounded-lg transition shadow-neon hover:shadow-neon text-sm sm:text-base">
+         class="bg-accent hover:bg-accent/80 text-black font-semibold py-3 sm:py-3.5 px-6 sm:px-8 rounded-lg transition shadow-neon hover:shadow-neon text-sm sm:text-base">
         View GitHub
       </a>
       <a href="/resume.pdf" download 
-         class="bg-surface border-2 border-border hover:border-accent text-accent py-2.5 sm:py-3 px-5 sm:px-6 rounded-lg transition text-sm sm:text-base">
+         class="glass-button border-2 border-border hover:border-accent text-accent py-3 sm:py-3.5 px-6 sm:px-8 rounded-lg text-sm sm:text-base">
         Download Resume
       </a>
       <a href="/resume.pdf" target="_blank" 
-         class="bg-surface border-2 border-border hover:border-accentPink text-accentPink py-2.5 sm:py-3 px-5 sm:px-6 rounded-lg transition text-sm sm:text-base">
+         class="glass-button border-2 border-border hover:border-accentPink text-accentPink py-3 sm:py-3.5 px-6 sm:px-8 rounded-lg text-sm sm:text-base">
         View Resume
       </a>
     </div>
   </section>
 
   <!-- Divider -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-16">
     <div class="h-px bg-gradient-to-r from-transparent via-accent to-transparent"></div>
   </div>
 
   <!-- Projects -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-20 relative z-10">
-    <div class="text-xs text-accent uppercase tracking-widest font-mono mb-2">// TERMINAL SECTION</div>
-    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 glow-text">Featured Projects</h2>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-24 relative z-10">
+    <div class="text-xs text-accent uppercase tracking-widest font-mono mb-3">// TERMINAL SECTION</div>
+    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 glow-text">Featured Projects</h2>
 
-    <p class="mb-8 text-accentPink text-sm sm:text-base font-mono">
+    <p class="mb-10 text-accentPink text-sm sm:text-base font-mono">
       → Latest: <strong>Maveric RADP Documentation Assistant</strong> — Full-stack RAG system built in 48 hours. 
       <a href="https://maveric-radp-demo-production-0992.up.railway.app" target="_blank" class="underline hover:text-accent transition">Live Demo</a>
     </p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
 
       <!-- Maveric RADP -->
-      <a href="https://maveric-radp-demo-production-0992.up.railway.app" target="_blank" class="project-card bg-surface rounded-xl p-6 block">
-        <div class="flex items-start justify-between mb-3">
-          <h3 class="text-xl font-bold text-accent">Maveric RADP Assistant</h3>
-          <span class="text-2xl">🚀</span>
+      <a href="https://maveric-radp-demo-production-0992.up.railway.app" target="_blank" class="project-card rounded-xl p-6 sm:p-7 block group">
+        <div class="mb-4">
+          <div class="inline-block px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-mono mb-3">
+            FEATURED
+          </div>
+          <h3 class="text-xl sm:text-2xl font-bold text-accent group-hover:text-accentPink transition">
+            Maveric RADP Assistant
+          </h3>
         </div>
-        <p class="text-textMuted text-sm leading-relaxed">
+        <p class="text-textMuted text-sm sm:text-base leading-relaxed mb-4">
           AI documentation assistant with RAG, semantic search, and Claude integration. FastAPI + React + PostgreSQL.
         </p>
-        <div class="mt-4 flex flex-wrap gap-2">
-          <span class="text-xs bg-surfaceLight text-accent px-2 py-1 rounded font-mono">Python</span>
-          <span class="text-xs bg-surfaceLight text-accent px-2 py-1 rounded font-mono">FastAPI</span>
-          <span class="text-xs bg-surfaceLight text-accent px-2 py-1 rounded font-mono">React</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag text-xs bg-surfaceLight text-accent px-3 py-1 rounded-full font-mono border border-accent/30">Python</span>
+          <span class="tag text-xs bg-surfaceLight text-accent px-3 py-1 rounded-full font-mono border border-accent/30">FastAPI</span>
+          <span class="tag text-xs bg-surfaceLight text-accent px-3 py-1 rounded-full font-mono border border-accent/30">React</span>
         </div>
       </a>
 
       <!-- CodePilot -->
-      <a href="https://codepilot-7vn0.onrender.com" target="_blank" class="project-card bg-surface rounded-xl p-6 block">
-        <div class="flex items-start justify-between mb-3">
-          <h3 class="text-xl font-bold text-accentPurple">CodePilot</h3>
-          <span class="text-2xl">🛠️</span>
+      <a href="https://codepilot-7vn0.onrender.com" target="_blank" class="project-card rounded-xl p-6 sm:p-7 block group">
+        <div class="mb-4">
+          <h3 class="text-xl sm:text-2xl font-bold text-accentPurple group-hover:text-accent transition">
+            CodePilot
+          </h3>
         </div>
-        <p class="text-textMuted text-sm leading-relaxed">
+        <p class="text-textMuted text-sm sm:text-base leading-relaxed mb-4">
           GPT-powered dev utility with Regex Explainer, API Tester, Bug Finder, and XP Tracker.
         </p>
-        <div class="mt-4 flex flex-wrap gap-2">
-          <span class="text-xs bg-surfaceLight text-accentPurple px-2 py-1 rounded font-mono">Flask</span>
-          <span class="text-xs bg-surfaceLight text-accentPurple px-2 py-1 rounded font-mono">OpenAI</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag text-xs bg-surfaceLight text-accentPurple px-3 py-1 rounded-full font-mono border border-accentPurple/30">Flask</span>
+          <span class="tag text-xs bg-surfaceLight text-accentPurple px-3 py-1 rounded-full font-mono border border-accentPurple/30">OpenAI</span>
         </div>
       </a>
 
       <!-- LeadStrike -->
-      <a href="https://leadstrike-ui.onrender.com" target="_blank" class="project-card bg-surface rounded-xl p-6 block">
-        <div class="flex items-start justify-between mb-3">
-          <h3 class="text-xl font-bold text-accentPink">LeadStrike</h3>
-          <span class="text-2xl">⚡</span>
+      <a href="https://leadstrike-ui.onrender.com" target="_blank" class="project-card rounded-xl p-6 sm:p-7 block group">
+        <div class="mb-4">
+          <h3 class="text-xl sm:text-2xl font-bold text-accentPink group-hover:text-accent transition">
+            LeadStrike
+          </h3>
         </div>
-        <p class="text-textMuted text-sm leading-relaxed">
+        <p class="text-textMuted text-sm sm:text-base leading-relaxed mb-4">
           Lead generation engine with live filters and Discord webhook integration.
         </p>
-        <div class="mt-4 flex flex-wrap gap-2">
-          <span class="text-xs bg-surfaceLight text-accentPink px-2 py-1 rounded font-mono">Python</span>
-          <span class="text-xs bg-surfaceLight text-accentPink px-2 py-1 rounded font-mono">Discord</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag text-xs bg-surfaceLight text-accentPink px-3 py-1 rounded-full font-mono border border-accentPink/30">Python</span>
+          <span class="tag text-xs bg-surfaceLight text-accentPink px-3 py-1 rounded-full font-mono border border-accentPink/30">Discord</span>
         </div>
       </a>
 
       <!-- WeathARRR -->
-      <a href="https://brybarrett.github.io/weatharrr/" target="_blank" class="project-card bg-surface rounded-xl p-6 block">
-        <div class="flex items-start justify-between mb-3">
-          <h3 class="text-xl font-bold text-accent">WeathARRR</h3>
-          <span class="text-2xl">🏴‍☠️</span>
+      <a href="https://brybarrett.github.io/weatharrr/" target="_blank" class="project-card rounded-xl p-6 sm:p-7 block group">
+        <div class="mb-4">
+          <h3 class="text-xl sm:text-2xl font-bold text-accent group-hover:text-accentPurple transition">
+            WeathARRR
+          </h3>
         </div>
-        <p class="text-textMuted text-sm leading-relaxed">
+        <p class="text-textMuted text-sm sm:text-base leading-relaxed mb-4">
           Pirate-themed weather app with live API calls and custom Tailwind styling.
         </p>
-        <div class="mt-4 flex-wrap gap-2">
-          <span class="text-xs bg-surfaceLight text-accent px-2 py-1 rounded font-mono">API</span>
-          <span class="text-xs bg-surfaceLight text-accent px-2 py-1 rounded font-mono">Tailwind</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag text-xs bg-surfaceLight text-accent px-3 py-1 rounded-full font-mono border border-accent/30">JavaScript</span>
+          <span class="tag text-xs bg-surfaceLight text-accent px-3 py-1 rounded-full font-mono border border-accent/30">API</span>
+          <span class="tag text-xs bg-surfaceLight text-accent px-3 py-1 rounded-full font-mono border border-accent/30">Tailwind</span>
         </div>
       </a>
 
       <!-- FormatForge -->
-      <a href="https://lessformatforgegreater-production.up.railway.app" target="_blank" class="project-card bg-surface rounded-xl p-6 block">
-        <div class="flex items-start justify-between mb-3">
-          <h3 class="text-xl font-bold text-accentPurple">FormatForge</h3>
-          <span class="text-2xl">✨</span>
+      <a href="https://lessformatforgegreater-production.up.railway.app" target="_blank" class="project-card rounded-xl p-6 sm:p-7 block group">
+        <div class="mb-4">
+          <h3 class="text-xl sm:text-2xl font-bold text-accentPurple group-hover:text-accentPink transition">
+            FormatForge
+          </h3>
         </div>
-        <p class="text-textMuted text-sm leading-relaxed">
+        <p class="text-textMuted text-sm sm:text-base leading-relaxed mb-4">
           AI content transformer using persona-based formatting for rapid content conversion.
         </p>
-        <div class="mt-4 flex flex-wrap gap-2">
-          <span class="text-xs bg-surfaceLight text-accentPurple px-2 py-1 rounded font-mono">OpenAI</span>
-          <span class="text-xs bg-surfaceLight text-accentPurple px-2 py-1 rounded font-mono">Flask</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag text-xs bg-surfaceLight text-accentPurple px-3 py-1 rounded-full font-mono border border-accentPurple/30">OpenAI</span>
+          <span class="tag text-xs bg-surfaceLight text-accentPurple px-3 py-1 rounded-full font-mono border border-accentPurple/30">Flask</span>
         </div>
       </a>
 
       <!-- Aurentis -->
-      <div class="project-card bg-surface rounded-xl p-6">
-        <div class="flex items-start justify-between mb-3">
-          <h3 class="text-xl font-bold text-accentPink">Aurentis</h3>
-          <span class="text-2xl">📊</span>
+      <div class="project-card rounded-xl p-6 sm:p-7 group cursor-default">
+        <div class="mb-4">
+          <div class="inline-block px-3 py-1 rounded-full bg-textMuted/10 border border-textMuted/30 text-textMuted text-xs font-mono mb-3">
+            PRIVATE
+          </div>
+          <h3 class="text-xl sm:text-2xl font-bold text-accentPink group-hover:text-accent transition">
+            Aurentis
+          </h3>
         </div>
-        <p class="text-textMuted text-sm leading-relaxed">
+        <p class="text-textMuted text-sm sm:text-base leading-relaxed mb-4">
           AI market signal detection system parsing news and social data for financial insights.
         </p>
-        <div class="mt-4 flex flex-wrap gap-2">
-          <span class="text-xs bg-surfaceLight text-accentPink px-2 py-1 rounded font-mono">Python</span>
-          <span class="text-xs bg-surfaceLight text-accentPink px-2 py-1 rounded font-mono">NLP</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag text-xs bg-surfaceLight text-accentPink px-3 py-1 rounded-full font-mono border border-accentPink/30">Python</span>
+          <span class="tag text-xs bg-surfaceLight text-accentPink px-3 py-1 rounded-full font-mono border border-accentPink/30">NLP</span>
         </div>
       </div>
 
@@ -270,8 +327,9 @@
   </section>
 
   <!-- Footer -->
-  <footer class="text-center py-8 text-textMuted text-xs sm:text-sm border-t border-border bg-surface/50 backdrop-blur relative z-10 font-mono">
-    &copy; 2025 Bryan S. Barrett • AI-Native Developer • Built with Tailwind
+  <footer class="text-center py-10 text-textMuted text-xs sm:text-sm border-t border-border bg-surface/30 backdrop-blur relative z-10 font-mono">
+    <p>&copy; 2025 Bryan S. Barrett</p>
+    <p class="mt-2 text-accent">AI-Native Developer • Building the Future</p>
   </footer>
 
 </body>
