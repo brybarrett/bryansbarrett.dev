@@ -17,7 +17,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -27,208 +27,250 @@
       theme: {
         extend: {
           colors: {
-            background: '#1a1a1a',
-            surface: '#222222',
-            accent: '#c28840',
-            accentGlow: '#f0e68c',
-            textPrimary: '#e7e3d4',
-            textMuted: '#a59f93',
-            border: '#7c6a58',
+            background: '#0a0a0f',
+            surface: '#1a1a24',
+            surfaceLight: '#252535',
+            accent: '#00d4ff',
+            accentPink: '#ff0080',
+            accentPurple: '#a855f7',
+            textPrimary: '#e7e7ea',
+            textMuted: '#9ca3af',
+            border: '#2d2d3d',
           },
           fontFamily: {
-            base: ['Share Tech Mono', 'IBM Plex Mono', 'monospace'],
-            alt: ['Orbitron', 'Unica One', 'sans-serif'],
+            base: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
           },
           boxShadow: {
-            innerCustom: 'inset 0 1px 3px #00000080, inset 0 -1px 2px #ffffff10',
+            neon: '0 0 20px rgba(0, 212, 255, 0.3)',
+            neonPink: '0 0 20px rgba(255, 0, 128, 0.3)',
+          },
+          backgroundImage: {
+            'grid-pattern': 'linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px)',
           },
           keyframes: {
-            flicker: {
-              '0%, 19%, 21%, 23%, 25%, 54%, 56%, 100%': { opacity: '1' },
-              '20%, 22%, 24%, 55%': { opacity: '0.4' },
+            pulse: {
+              '0%, 100%': { opacity: 1 },
+              '50%': { opacity: 0.5 },
             },
-            typing: {
-              '0%': { width: '0' },
-              '100%': { width: '100%' }
-            },
-            blink: {
-              '0%, 50%, 100%': { borderColor: 'transparent' },
-              '25%, 75%': { borderColor: '#f0e68c' },
-            },
-            driftSmoke: {
-              '0%': { transform: 'translateY(0)', opacity: '0.1' },
-              '50%': { transform: 'translateY(-10px)', opacity: '0.25' },
-              '100%': { transform: 'translateY(0)', opacity: '0.1' },
+            slideIn: {
+              '0%': { transform: 'translateY(20px)', opacity: 0 },
+              '100%': { transform: 'translateY(0)', opacity: 1 },
             },
           },
           animation: {
-            flicker: 'flicker 1.5s infinite',
-            smoke: 'driftSmoke 10s linear infinite',
-            typewriter: 'typing 6s steps(30, end) forwards',
-            cursor: 'blink 0.8s step-end infinite'
+            pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            slideIn: 'slideIn 0.5s ease-out forwards',
           }
         }
       }
     }
   </script>
 
-  <!-- Custom Styles -->
   <style>
     body {
-      font-family: 'Share Tech Mono', monospace;
-      background-color: #1a1a1a;
-      color: #e7e3d4;
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="white"/></svg>') 4 4, auto;
+      font-family: 'Inter', sans-serif;
+      background-color: #0a0a0f;
+      background-image: 
+        linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      color: #e7e7ea;
     }
-
-    .ascii-divider {
-      font-family: monospace;
-      color: #7c6a58;
-      font-size: 0.875rem;
-      letter-spacing: 0.08em;
-      text-align: center;
-      padding: 0.5rem 0;
+    
+    .scan-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.8), transparent);
+      animation: scan 4s linear infinite;
+      pointer-events: none;
+      z-index: 9999;
     }
-
-    .corner-bolt {
-      width: 8px;
-      height: 8px;
-      background: #7c6a58;
-      position: absolute;
-      border-radius: 1px;
+    
+    @keyframes scan {
+      0% { top: 0; }
+      100% { top: 100%; }
     }
-
-    .bolt-tl { top: -4px; left: -4px; }
-    .bolt-tr { top: -4px; right: -4px; }
-    .bolt-bl { bottom: -4px; left: -4px; }
-    .bolt-br { bottom: -4px; right: -4px; }
-
-    .typewriter {
-      overflow: hidden;
-      white-space: nowrap;
-      border-right: 2px solid #f0e68c;
-      animation: typing 6s steps(30, end) forwards, cursor 0.8s step-end infinite;
-      display: inline-block;
-      max-width: 100%;
+    
+    .glow-text {
+      text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
     }
-
-    .typewriter-delay {
-      animation-delay: 6.2s;
+    
+    .project-card {
+      transition: all 0.3s ease;
+      border: 1px solid #2d2d3d;
+    }
+    
+    .project-card:hover {
+      border-color: #00d4ff;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+      transform: translateY(-4px);
+    }
+    
+    @media (max-width: 640px) {
+      h1 { font-size: 2rem; }
+      .hero-tagline { font-size: 1rem; }
     }
   </style>
 </head>
-<body class="bg-background text-textPrimary relative overflow-hidden">
+<body class="bg-background text-textPrimary relative overflow-x-hidden min-h-screen">
 
-  <!-- Smoke Layer -->
-  <div class="absolute inset-0 z-0 pointer-events-none animate-smoke">
-    <div class="w-full h-full bg-gradient-to-b from-[#ffffff0a] to-[#00000000]"></div>
-  </div>
+  <!-- Scan Line Effect -->
+  <div class="scan-line"></div>
 
   <!-- HERO -->
-  <section class="max-w-6xl mx-auto text-center px-6 py-32 relative z-10">
-    <div class="flex items-center justify-center gap-3 mb-2">
-      <div class="w-2 h-2 rounded-full bg-accentGlow animate-flicker shadow-[0_0_8px_#f0e68c]"></div>
-      <span class="text-sm textMuted tracking-widest uppercase">● ONLINE</span>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-32 relative z-10">
+    <div class="flex items-center justify-center gap-3 mb-4">
+      <div class="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
+      <span class="text-xs sm:text-sm text-textMuted tracking-widest uppercase font-mono">● ONLINE</span>
     </div>
-    <h1 class="text-5xl lg:text-6xl font-bold font-alt tracking-wider uppercase text-accent typewriter">
-      Bryan S. Barrett
+    
+    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-center mb-6">
+      <span class="bg-gradient-to-r from-accent via-accentPurple to-accentPink bg-clip-text text-transparent">
+        BRYAN S. BARRETT
+      </span>
     </h1>
-    <p class="text-lg md:text-xl textMuted mt-4 font-base typewriter typewriter-delay">
-      AI-Native Developer • Rapid Prototyping → Production • LLM Applications
+    
+    <p class="hero-tagline text-lg sm:text-xl lg:text-2xl text-center text-textMuted font-mono mb-4">
+      <span class="text-accent">AI-Native Developer</span> • Rapid Prototyping → Production • LLM Applications
     </p>
-    <p class="mt-3 text-sm md:text-base text-amber-300/80 tracking-wide">
-      ⚡ Building AI-powered tools that ship fast — RAG systems, dev utilities, and intelligent automation.
+    
+    <p class="text-sm sm:text-base text-center text-textMuted max-w-3xl mx-auto mb-8 leading-relaxed">
+      Building AI-powered tools that ship fast — RAG systems, dev utilities, and intelligent automation.
     </p>
 
-    <div class="mt-6 flex flex-wrap justify-center gap-4">
-      <a href="https://github.com/brybarrett" class="bg-accent hover:bg-accentGlow text-black font-bold py-2 px-5 rounded-md border-2 border-border transition hover:shadow-[0_0_6px_#f0e68c88]">View GitHub</a>
-      <a href="/resume.pdf" download class="bg-surface border-2 border-border text-accent hover:text-accentGlow py-2 px-5 rounded-md transition hover:shadow-[0_0_6px_#f0e68c88]">
+    <div class="flex flex-wrap justify-center gap-3 sm:gap-4">
+      <a href="https://github.com/brybarrett" 
+         class="bg-accent hover:bg-accent/80 text-black font-semibold py-2.5 sm:py-3 px-5 sm:px-6 rounded-lg transition shadow-neon hover:shadow-neon text-sm sm:text-base">
+        View GitHub
+      </a>
+      <a href="/resume.pdf" download 
+         class="bg-surface border-2 border-border hover:border-accent text-accent py-2.5 sm:py-3 px-5 sm:px-6 rounded-lg transition text-sm sm:text-base">
         Download Resume
       </a>
-      <a href="/resume.pdf" target="_blank" class="bg-surface border-2 border-border text-accent hover:text-accentGlow py-2 px-5 rounded-md transition hover:shadow-[0_0_6px_#f0e68c88]">
+      <a href="/resume.pdf" target="_blank" 
+         class="bg-surface border-2 border-border hover:border-accentPink text-accentPink py-2.5 sm:py-3 px-5 sm:px-6 rounded-lg transition text-sm sm:text-base">
         View Resume
       </a>
     </div>
   </section>
 
   <!-- Divider -->
-  <div class="ascii-divider">╒════════════════════════════════════╛</div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-12">
+    <div class="h-px bg-gradient-to-r from-transparent via-accent to-transparent"></div>
+  </div>
 
   <!-- Projects -->
-  <section class="max-w-6xl mx-auto px-6 py-16 relative z-10">
-    <div class="text-xs text-[#7c6a58] uppercase tracking-wider font-mono mb-2">Terminal Section</div>
-    <h2 class="text-3xl font-bold tracking-wider text-accent mb-3 border-b border-border pb-4">Featured Projects</h2>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-20 relative z-10">
+    <div class="text-xs text-accent uppercase tracking-widest font-mono mb-2">// TERMINAL SECTION</div>
+    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 glow-text">Featured Projects</h2>
 
-    <p class="mb-7 text-amber-300/80 text-sm md:text-base">
-      🚀 Latest: <strong>Maveric RADP Documentation Assistant</strong> — Full-stack RAG system built in 48 hours for LF Connectivity. <a href="https://maveric-radp-demo-production-0992.up.railway.app" target="_blank" class="underline hover:text-accentGlow">Live Demo</a>
+    <p class="mb-8 text-accentPink text-sm sm:text-base font-mono">
+      → Latest: <strong>Maveric RADP Documentation Assistant</strong> — Full-stack RAG system built in 48 hours. 
+      <a href="https://maveric-radp-demo-production-0992.up.railway.app" target="_blank" class="underline hover:text-accent transition">Live Demo</a>
     </p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
 
       <!-- Maveric RADP -->
-      <a href="https://maveric-radp-demo-production-0992.up.railway.app" target="_blank" rel="noopener noreferrer" class="bg-surface border border-border rounded-md p-5 shadow-lg relative hover:shadow-[0_0_10px_#f0e68c55] hover:scale-[1.01] transition duration-300 block">
-        <div class="corner-bolt bolt-tl absolute"></div>
-        <div class="corner-bolt bolt-tr absolute"></div>
-        <div class="corner-bolt bolt-bl absolute"></div>
-        <div class="corner-bolt bolt-br absolute"></div>
-        <h3 class="text-xl font-bold text-accent mb-2">Maveric RADP Assistant</h3>
-        <p class="textMuted text-sm">AI documentation assistant with RAG, semantic search, and Claude integration. FastAPI + React + PostgreSQL.</p>
+      <a href="https://maveric-radp-demo-production-0992.up.railway.app" target="_blank" class="project-card bg-surface rounded-xl p-6 block">
+        <div class="flex items-start justify-between mb-3">
+          <h3 class="text-xl font-bold text-accent">Maveric RADP Assistant</h3>
+          <span class="text-2xl">🚀</span>
+        </div>
+        <p class="text-textMuted text-sm leading-relaxed">
+          AI documentation assistant with RAG, semantic search, and Claude integration. FastAPI + React + PostgreSQL.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <span class="text-xs bg-surfaceLight text-accent px-2 py-1 rounded font-mono">Python</span>
+          <span class="text-xs bg-surfaceLight text-accent px-2 py-1 rounded font-mono">FastAPI</span>
+          <span class="text-xs bg-surfaceLight text-accent px-2 py-1 rounded font-mono">React</span>
+        </div>
       </a>
 
       <!-- CodePilot -->
-      <a href="https://codepilot-7vn0.onrender.com" target="_blank" rel="noopener noreferrer" class="bg-surface border border-border rounded-md p-5 shadow-lg relative hover:shadow-[0_0_10px_#f0e68c55] hover:scale-[1.01] transition duration-300 block">
-        <div class="corner-bolt bolt-tl absolute"></div>
-        <div class="corner-bolt bolt-tr absolute"></div>
-        <div class="corner-bolt bolt-bl absolute"></div>
-        <div class="corner-bolt bolt-br absolute"></div>
-        <h3 class="text-xl font-bold text-accent mb-2">CodePilot</h3>
-        <p class="textMuted text-sm">GPT-powered dev utility with Regex Explainer, API Tester, Bug Finder, and XP Tracker.</p>
+      <a href="https://codepilot-7vn0.onrender.com" target="_blank" class="project-card bg-surface rounded-xl p-6 block">
+        <div class="flex items-start justify-between mb-3">
+          <h3 class="text-xl font-bold text-accentPurple">CodePilot</h3>
+          <span class="text-2xl">🛠️</span>
+        </div>
+        <p class="text-textMuted text-sm leading-relaxed">
+          GPT-powered dev utility with Regex Explainer, API Tester, Bug Finder, and XP Tracker.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <span class="text-xs bg-surfaceLight text-accentPurple px-2 py-1 rounded font-mono">Flask</span>
+          <span class="text-xs bg-surfaceLight text-accentPurple px-2 py-1 rounded font-mono">OpenAI</span>
+        </div>
       </a>
 
       <!-- LeadStrike -->
-      <a href="https://leadstrike-ui.onrender.com" target="_blank" rel="noopener noreferrer" class="bg-surface border border-border rounded-md p-5 shadow-lg relative hover:shadow-[0_0_10px_#f0e68c55] hover:scale-[1.01] transition duration-300 block">
-        <div class="corner-bolt bolt-tl absolute"></div>
-        <div class="corner-bolt bolt-tr absolute"></div>
-        <div class="corner-bolt bolt-bl absolute"></div>
-        <div class="corner-bolt bolt-br absolute"></div>
-        <h3 class="text-xl font-bold text-accent mb-2">LeadStrike</h3>
-        <p class="textMuted text-sm">Lead generation engine with live filters and Discord webhook integration.</p>
+      <a href="https://leadstrike-ui.onrender.com" target="_blank" class="project-card bg-surface rounded-xl p-6 block">
+        <div class="flex items-start justify-between mb-3">
+          <h3 class="text-xl font-bold text-accentPink">LeadStrike</h3>
+          <span class="text-2xl">⚡</span>
+        </div>
+        <p class="text-textMuted text-sm leading-relaxed">
+          Lead generation engine with live filters and Discord webhook integration.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <span class="text-xs bg-surfaceLight text-accentPink px-2 py-1 rounded font-mono">Python</span>
+          <span class="text-xs bg-surfaceLight text-accentPink px-2 py-1 rounded font-mono">Discord</span>
+        </div>
       </a>
 
       <!-- WeathARRR -->
-      <a href="https://brybarrett.github.io/weatharrr/" target="_blank" rel="noopener noreferrer" class="bg-surface border border-border rounded-md p-5 shadow-lg relative hover:shadow-[0_0_10px_#f0e68c55] hover:scale-[1.01] transition duration-300 block">
-        <div class="corner-bolt bolt-tl absolute"></div>
-        <div class="corner-bolt bolt-tr absolute"></div>
-        <div class="corner-bolt bolt-bl absolute"></div>
-        <div class="corner-bolt bolt-br absolute"></div>
-        <h3 class="text-xl font-bold text-accent mb-2">WeathARRR</h3>
-        <p class="textMuted text-sm">Pirate-themed weather app with live API calls and custom Tailwind styling.</p>
+      <a href="https://brybarrett.github.io/weatharrr/" target="_blank" class="project-card bg-surface rounded-xl p-6 block">
+        <div class="flex items-start justify-between mb-3">
+          <h3 class="text-xl font-bold text-accent">WeathARRR</h3>
+          <span class="text-2xl">🏴‍☠️</span>
+        </div>
+        <p class="text-textMuted text-sm leading-relaxed">
+          Pirate-themed weather app with live API calls and custom Tailwind styling.
+        </p>
+        <div class="mt-4 flex-wrap gap-2">
+          <span class="text-xs bg-surfaceLight text-accent px-2 py-1 rounded font-mono">API</span>
+          <span class="text-xs bg-surfaceLight text-accent px-2 py-1 rounded font-mono">Tailwind</span>
+        </div>
       </a>
 
       <!-- FormatForge -->
-      <a href="https://lessformatforgegreater-production.up.railway.app" target="_blank" rel="noopener noreferrer" class="bg-surface border border-border rounded-md p-5 shadow-lg relative hover:shadow-[0_0_10px_#f0e68c55] hover:scale-[1.01] transition duration-300 block">
-        <div class="corner-bolt bolt-tl absolute"></div>
-        <div class="corner-bolt bolt-tr absolute"></div>
-        <div class="corner-bolt bolt-bl absolute"></div>
-        <div class="corner-bolt bolt-br absolute"></div>
-        <h3 class="text-xl font-bold text-accent mb-2">FormatForge</h3>
-        <p class="textMuted text-sm">AI content transformer using persona-based formatting for rapid content conversion.</p>
+      <a href="https://lessformatforgegreater-production.up.railway.app" target="_blank" class="project-card bg-surface rounded-xl p-6 block">
+        <div class="flex items-start justify-between mb-3">
+          <h3 class="text-xl font-bold text-accentPurple">FormatForge</h3>
+          <span class="text-2xl">✨</span>
+        </div>
+        <p class="text-textMuted text-sm leading-relaxed">
+          AI content transformer using persona-based formatting for rapid content conversion.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <span class="text-xs bg-surfaceLight text-accentPurple px-2 py-1 rounded font-mono">OpenAI</span>
+          <span class="text-xs bg-surfaceLight text-accentPurple px-2 py-1 rounded font-mono">Flask</span>
+        </div>
       </a>
 
       <!-- Aurentis -->
-      <div class="bg-surface border border-border rounded-md p-5 shadow-lg relative opacity-75">
-        <div class="corner-bolt bolt-tl absolute"></div>
-        <div class="corner-bolt bolt-tr absolute"></div>
-        <div class="corner-bolt bolt-bl absolute"></div>
-        <div class="corner-bolt bolt-br absolute"></div>
-        <h3 class="text-xl font-bold text-accent mb-2">Aurentis</h3>
-        <p class="textMuted text-sm">AI market signal detection system parsing news and social data for financial insights.</p>
+      <div class="project-card bg-surface rounded-xl p-6">
+        <div class="flex items-start justify-between mb-3">
+          <h3 class="text-xl font-bold text-accentPink">Aurentis</h3>
+          <span class="text-2xl">📊</span>
+        </div>
+        <p class="text-textMuted text-sm leading-relaxed">
+          AI market signal detection system parsing news and social data for financial insights.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <span class="text-xs bg-surfaceLight text-accentPink px-2 py-1 rounded font-mono">Python</span>
+          <span class="text-xs bg-surfaceLight text-accentPink px-2 py-1 rounded font-mono">NLP</span>
+        </div>
       </div>
+
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="text-center py-8 textMuted text-sm border-t border-border bg-background shadow-[inset_0_1px_1px_#ffffff10] relative z-10">
+  <footer class="text-center py-8 text-textMuted text-xs sm:text-sm border-t border-border bg-surface/50 backdrop-blur relative z-10 font-mono">
     &copy; 2025 Bryan S. Barrett • AI-Native Developer • Built with Tailwind
   </footer>
 
